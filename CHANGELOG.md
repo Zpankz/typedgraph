@@ -2,6 +2,14 @@
 
 All notable changes to the Typed Graph plugin, the `tg` CLI, the core library and the sidecar. The VS Code extension keeps its own [changelog](packages/vscode/CHANGELOG.md).
 
+## 0.28.1 — 2026-11-16
+
+A fork release of 0.28.0 (Zpankz/typedgraph) with one fix, for installing through BRAT.
+
+### Fixed
+
+- **Frontmatter ends only at a column-0 fence.** Every reader trimmed each line before comparing it with `---` or `...`, so an indented `---` inside a YAML block scalar ended the frontmatter early. `splitFrontmatter` then dropped every key after it, and the edge parser, heading and element scanners and lat.md export read the rest of the frontmatter as body text, which with link edges on added `links_to` edges from frontmatter properties. All of them now use `frontmatterClose`, which accepts only a fence at column 0 (trailing spaces and tabs are still allowed). Upstream issue Volland/typedgraph#17, PR #18.
+
 ## 0.28.0 — 2026-11-11
 
 The specification's addresses resolve again.
